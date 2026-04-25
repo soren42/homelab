@@ -3,11 +3,9 @@
 #include <TFT_eSPI.h>
 #include <math.h>
 
-// FreeFonts shipped with TFT_eSPI (LOAD_GFXFF must be defined).
-#include <Fonts/GFXFF/gfxfont.h>
-#include <Fonts/GFXFF/FreeSans9pt7b.h>
-#include <Fonts/GFXFF/FreeSansBold9pt7b.h>
-#include <Fonts/GFXFF/FreeSansBold18pt7b.h>
+// FreeFonts (FreeSans9pt7b, FreeSansBold9pt7b, FreeSansBold18pt7b) are pulled
+// in automatically by TFT_eSPI when LOAD_GFXFF is defined — do not re-include
+// the headers here or the symbols are redefined at link time.
 
 namespace {
 
