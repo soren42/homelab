@@ -1,0 +1,20 @@
+{
+  "wifi": {
+    "ssid": "YOUR_WIFI_SSID",
+    "password": "YOUR_WIFI_PASSWORD"
+  },
+  "time": {
+    "timezone": "America/New_York",
+    "ntp_server": "pool.ntp.org"
+  },
+  "weather": {
+    "latitude": 40.7128,
+    "longitude": -74.0060,
+    "units": "imperial",
+    "refresh_minutes": 15
+  },
+  "display": {
+    "show_seconds": true,
+    "24_hour": false
+  }
+}
