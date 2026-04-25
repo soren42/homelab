@@ -12,20 +12,23 @@ Display 1.28"** (240x240 round, GC9A01).
 
 ## Hardware
 
-Tested on the **CrowPanel ESP32 Rotary Display 1.28"** (ESP32-C3-WROOM-02 +
-GC9A01). Default pin map (see `platformio.ini` to override):
+**ELECROW 1.28" Rotary IPS Display** — ESP32-S3R8 (Xtensa LX7 dual-core
+240 MHz, 512 KB SRAM + 8 MB OPI PSRAM, 8 MB QIO flash) + GC9A01 240×240
+round display.
+
+Default pin map (overridable via `-DTFT_*` flags in `platformio.ini`):
 
 | Function | GPIO |
 |----------|------|
-| TFT MOSI | 6    |
-| TFT SCLK | 7    |
+| TFT MOSI | 11   |
+| TFT SCLK | 12   |
 | TFT CS   | 10   |
-| TFT DC   | 2    |
+| TFT DC   | 8    |
 | TFT RST  | tied to system reset |
-| TFT BL   | 3    |
+| TFT BL   | 2    |
 
-If your variant uses different pins, edit the `-DTFT_*` flags in
-`platformio.ini`.
+If the screen stays blank after a successful build/upload, double-check
+these against your board's schematic and update the build flags.
 
 ## Build & Flash
 
