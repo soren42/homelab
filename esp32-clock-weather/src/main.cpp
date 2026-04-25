@@ -44,29 +44,46 @@ void refreshWeatherIfDue(bool force = false) {
 
 void setup() {
     Serial.begin(115200);
-    delay(150);
-    log_i("Booting clock+weather");
+    delay(1500);   // give USB-CDC time to enumerate before first prints
+    Serial.println();
+    Serial.println(F("=== ESP32-S3 1.28\" rotary clock+weather ==="));
+    Serial.printf("[boot] chip: %s rev %d  cores: %d  PSRAM: %u\n",
+                  ESP.getChipModel(), ESP.getChipRevision(), ESP.getChipCores(),
+                  (unsigned)ESP.getPsramSize());
+    Serial.printf("[boot] free heap: %u  free PSRAM: %u\n",
+                  (unsigned)ESP.getFreeHeap(), (unsigned)ESP.getFreePsram());
 
+    Serial.println(F("[boot] loading config.json"));
     const bool cfgOk = Config::load(gCfg);
+    Serial.printf("[boot] config: %s\n", cfgOk ? "ok" : "FAILED");
 
+    Serial.println(F("[boot] UI::begin"));
     UI::begin(gCfg.twentyFourHour, gCfg.showSeconds);
+    Serial.println(F("[boot] UI ready"));
+
     if (!cfgOk) {
         UI::showStatus("Config error", "check /config.json");
         return;
     }
 
     UI::showStatus("Connecting WiFi", gCfg.wifiSsid.c_str());
+    Serial.printf("[boot] WiFi connecting to '%s'\n", gCfg.wifiSsid.c_str());
     if (!Net::connectWifi(gCfg)) {
+        Serial.println(F("[boot] WiFi FAILED, rebooting in 10s"));
         UI::showStatus("WiFi failed", "rebooting in 10s");
         delay(10000);
         ESP.restart();
     }
 
     UI::showStatus("Syncing time", gCfg.timezone.c_str());
+    Serial.printf("[boot] NTP sync via %s (tz %s)\n",
+                  gCfg.ntpServer.c_str(), gCfg.timezone.c_str());
     Net::syncTime(gCfg);
 
     UI::showStatus("Fetching weather", "");
+    Serial.println(F("[boot] fetching weather"));
     refreshWeatherIfDue(/*force=*/true);
+    Serial.println(F("[boot] setup complete"));
 }
 
 void loop() {

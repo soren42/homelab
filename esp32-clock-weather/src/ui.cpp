@@ -308,18 +308,22 @@ void begin(bool twentyFourHour, bool showSeconds) {
     gTwentyFourHour = twentyFourHour;
     gShowSeconds    = showSeconds;
 
+    Serial.println(F("[ui] tft.init"));
     tft.init();
+    Serial.println(F("[ui] setRotation"));
     tft.setRotation(0);
+    Serial.println(F("[ui] fillScreen"));
     tft.fillScreen(TFT_BLACK);
+    Serial.println(F("[ui] tft ready"));
 
     // Try to allocate a full-screen back-buffer for flicker-free rendering.
     frame.setColorDepth(16);
     if (frame.createSprite(W, H)) {
         useSprite = true;
-        log_i("UI: using 240x240 16bpp sprite (back-buffer)");
+        Serial.println(F("[ui] sprite back-buffer allocated"));
     } else {
         useSprite = false;
-        log_w("UI: sprite alloc failed, falling back to direct draw");
+        Serial.println(F("[ui] sprite alloc FAILED, using direct draw"));
     }
 }
 
